@@ -1,0 +1,23 @@
+#include <stdio.h>
+
+
+int main() {
+	
+	int a;int a = 0;
+    double d = 10.21;
+    printf("%lu", sizeof(a + d));
+    return 0; 
+	char b;
+	float c;
+
+	int sizeA = sizeof(a);
+        int sizeB = sizeof(b);
+        int sizeC = sizeof(c);
+
+
+	printf(sizeA); 
+
+
+	return 0; 
+}
+
