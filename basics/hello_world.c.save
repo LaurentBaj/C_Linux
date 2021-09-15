@@ -1,8 +1,0 @@
-#include <stdio.h> // allows us to user print and scanner functions 
-
-int main() { // Entry point
-
-	printf("Hello, World!\n"); 
-
-	return 0; 
-        // Not 
