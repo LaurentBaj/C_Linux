@@ -9,7 +9,7 @@ int main() {
 	int *q = &b;
 
 	scanf("%d %d", p, q);
-	printf("The numbers are %d, %d \n", *p, *q);
+	printf("Input 1: %d, Input 2: %d\n", *p, *q);
 
 	return 0; 
 }
