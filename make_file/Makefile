@@ -20,3 +20,8 @@ hello: hello.c
 
 clean: 
 	rm -f hello 1 2 3
+
+
+# Print out file information about every .c file
+print: $(wildcard *.c)
+	ls -la  $?

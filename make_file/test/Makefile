@@ -1,10 +1,16 @@
-x = dude
+objects = foo.o bar.o all.o
+all: $(objects)
 
+# These files compile via implicit rules
+foo.o: foo.c
+bar.o: bar.c
+all.o: all.c
 
-all:
-	echo $(x)
-	echo ${x}
+all.c:
+	echo "int main() { return 0; }" > all.c
 
+%.c:
+	touch $@
 
-	# Bad practice, but works
-	echo $x
+clean:
+	rm -f *.c *.o all
