@@ -1,0 +1,36 @@
+A program has a dedicated size of memory allocated to it.
+The memory is divided into Code, Static, Stack and Heap
+
+/*STACK*/
+The program runs on the memory from Stack, and follows the instructions 
+from Code. Each program needs a main stack to run it. This is called
+the main stack. The main stack occupies an amount of memory from Stack
+,and is popped of when the program is done executing, removing the values
+of operations stored in the computer's ram. This means that if we only use
+Stack for allocating values then the program size always remains the same.
+
+Function calls are also allocated a stack of memory on the Stack. When a 
+function is called from main, a new stack is pushed on the Stack, and when
+the block of code executes, the program then continiues in main. 
+
+It is also possible to exceed the memory in Stack. This happens when too 
+many functions are called and the Stack does not have more space to allocate.
+This is called 'Stack overflow'. 
+
+
+/*HEAP*/
+Since we can run out of memory in Stack, we can use Heap to allocate memory.
+This is done dynamically since the Heap is not limited, unlike the Stack.
+
+Each time we allocate some memory in Heap it stores it in a new address.
+This means that if a pointer points to an address, when we redefine the pointer
+then it has a new address. This has positive and negative consequences.
+
+In Stack we can't return a value of an address which was allocated on a function.
+This is because when the program enters main again, the function pops off, 
+returning the address, but the value inside that address is empty. We do not have to 
+worry about this if we allocate memory in Heap since it would never pop of.
+
+The problem is that we have to free that memory in Heap using free(). If we do not
+free it, then the Application memory increases with each allocatin in Heap. This is 
+called a Memory Leak. Modern languages have garbage collection that frees dynamic mem
