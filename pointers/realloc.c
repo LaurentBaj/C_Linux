@@ -17,7 +17,7 @@ int main()
 	for(int i = 0; i < n; i++) { A[i] = (i + 1); }
 
 	// New array  B - Twice the size of A - populated with half of vals from A
-        int *B = (int*)realloc(A, 2*n*sizeof(int)); 
+        int *B = (int*)realloc(A, 2*n*sizeof(int));
 
 	// Print B
 	for(int i = 0; i < (2 * n); i++) { printf("%d\n", B[i]); }
