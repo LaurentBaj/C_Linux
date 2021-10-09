@@ -1,0 +1,14 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+	int  *A
+	printf("%ls\n", A);
+	printf("%ls\n", A + 9);
+	/*while(A < A+9)
+	{
+		printf("%d\n", *(A));
+		A++;
+	}*/
+}
