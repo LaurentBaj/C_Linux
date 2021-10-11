@@ -1,16 +1,26 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <string.h>
+
+int length(char *array);
 
 
 
-
-int main (int argc, char *argv)
+int main()
 {
-	int counter=-1;
-	while (*argv++ != '\0') ++counter;
-	printf ("%d\n", counter);
-
-	return 0;
+	char array[] = "Me Too!";
+	printf("%s\n",  array);
+	printf("%ld - %d\n", strlen(array), length(array));
 }
 
 
+
+int length(char *array) 
+{
+	int i=0;
+	while(*array != '\0') 
+	{ 
+		i++; 
+		array++; 
+	}
+	return i;
+}
