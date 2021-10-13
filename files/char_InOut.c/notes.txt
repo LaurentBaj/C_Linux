@@ -1,0 +1,8 @@
+Two kinds of Character Input/Output functions
+
+
+1) Terminal -> getchar, putchar
+
+
+
+2) Stream -> getc-fgetc, putc-fputc
