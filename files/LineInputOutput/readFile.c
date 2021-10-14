@@ -2,7 +2,7 @@
 #include <stdlib.h> 
 
 
-int main()
+int main ()
 {
 
 	char x;
@@ -26,4 +26,4 @@ int main()
 	}
 
 	fclose (file);
-}
+} 
