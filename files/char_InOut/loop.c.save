@@ -1,0 +1,16 @@
+#include <stdio.h>
+
+
+// We already need to have a text file 
+
+
+
+int main()
+{
+        char x;
+        FILE *file = fopen("program.txt", "r");
+
+	
+
+
+}

@@ -1,4 +1,4 @@
-#include <stdio.h>
+|#include <stdio.h>
 
 
 // We already need to have a text file 
@@ -7,6 +7,7 @@
 
 int main()
 {
+
 	char x;
 	FILE *file;
 
@@ -25,8 +26,8 @@ int main()
 	fclose(file);
 
         putchar(x); // l
-	fputc(file, stdout); // none, stream closed
-
+	fputc(file, stdout); // gives: �l - since stream closed 
+}
 
 /*
 	fget(file) - get one character from file from file stream
