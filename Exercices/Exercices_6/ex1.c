@@ -7,7 +7,7 @@
 void main (void)
 {
 
-	FILE *fb, *ft;
+	FILE *fb, *ft, *fb2;
 	double num;
    
 	
@@ -39,6 +39,7 @@ void main (void)
 			printf("%lf\n", buffer[i]); 
 		}
 		*/
+		printf("doubles.dat contents: \n");
 		while (!feof(fb))
 		{
 			// As long as there is content (true) - put that into num
@@ -66,4 +67,37 @@ void main (void)
 		fclose (ft);
 	}
 	fclose (fb); 
+	
+	
+	// Read text contents into new bin
+	ft = fopen ("program.txt", "r");
+	if (ft != NULL)
+	{
+		fb2 = fopen ("doubles2.dat", "wb");
+		while (!feof(ft))
+		{
+			// As long as there is content (true) - put that into num
+			if (fscanf(ft, "%lf", &num) == 1)
+			{
+				fwrite (&num, sizeof(double), 1, fb2); // write num into bin
+			}
+		}
+		fclose (fb2); 
+	}	
+	fclose (ft); 
+	
+	
+	fb2 = fopen ("doubles2.dat", "rb");
+	if (fb2 != NULL)
+	{
+		printf("\ndoubles2.dat contents: \n"); 
+		while (!feof(fb2))
+		{
+			if (fread(&num, sizeof(double), 1, fb2) == 1)
+			{
+				printf("%lf\n", num); 		
+			}
+		}
+	}
+	fclose (fb2); 
 }
