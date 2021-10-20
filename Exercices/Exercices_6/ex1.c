@@ -69,7 +69,7 @@ void main (void)
 	fclose (fb); 
 	
 	
-	// Read text contents into new bin
+	// Read text contents into new bin (doubles2.dat)
 	ft = fopen ("program.txt", "r");
 	if (ft != NULL)
 	{
@@ -86,7 +86,7 @@ void main (void)
 	}	
 	fclose (ft); 
 	
-	
+	// Print doubles2.dat contents 
 	fb2 = fopen ("doubles2.dat", "rb");
 	if (fb2 != NULL)
 	{
