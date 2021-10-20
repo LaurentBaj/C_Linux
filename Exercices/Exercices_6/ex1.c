@@ -4,26 +4,66 @@
 
 
 
-int main()
+void main (void)
 {
 
-	FILE *f = fopen("dec.txt", "r");
-	int lSize;
+	FILE *fb, *ft;
+	double num;
+   
 	
-	
-	if(f != NULL)
+	// Bin-file with doubles
+	fb = fopen ("doubles.dat", "wb");
+	if (fb != NULL)
 	{
-	
-		if (fseek(f, 0, SEEK_END) == 0)
+		for (int i = 20; i < 30; i++)
 		{
-			lSize = ftell(f);
-			printf("Size of file: %d\n", lSize);
-			rewind(f);
+			num = (double) i;
+			fwrite (&num, sizeof(double), 1, fb);
 		}
-		
-		double d[lSize];
-		
-		fread(d, sizeof(double), 1, f);
-		
+		fclose (fb);
 	}
+	
+	
+	// Read from bin
+	// stdout contents
+	fb = fopen ("doubles.dat", "rb");
+	if (fb != NULL)
+	{
+		// 'read' bin contents into buffer arr
+		// and then print buffer contents
+		/* THIS WORKS AS WELL
+		double buffer[10];
+		fread (buffer, sizeof(buffer), 1, fb);
+		for (int i = 0; i < 10; i++)
+		{
+			printf("%lf\n", buffer[i]); 
+		}
+		*/
+		while (!feof(fb))
+		{
+			// As long as there is content (true) - put that into num
+			if (fread(&num, sizeof(double), 1, fb) == 1) 
+			{
+				printf("%lf\n", num);  
+			}
+		}
+		fclose (fb); 
+	}
+	
+	
+	// Put Bin contents into text file 
+	fb = fopen ("doubles.dat", "rb");
+	if (fb != NULL)
+	{
+		ft = fopen("program.txt", "w");
+		while (!feof(fb))
+		{
+			if (fread(&num, sizeof(double), 1, fb) == 1)
+			{
+				fprintf(ft, "%lf\n", num); 
+			}
+		}
+		fclose (ft);
+	}
+	fclose (fb); 
 }
