@@ -13,15 +13,22 @@ void main (void)
    	ret = strchr(ret, ch); 
    	if (ret)
    	{
+   		counter++;
+   		printf("Position: %ld\n", (ret-str+1)); 
    		ret++;
-   		counter++; 
    	}
    } 
    
-   printf("The character |%c| occured - %d times \n", ch, counter);
+   printf("The character |%c| occured - %d times \n", ch, counter); 
 }
 
+/* OUTPUT: 
 
-/* Output: 
-	'The character |t| occured - 5 times'
+	Position: 1
+	Position: 2
+	Position: 11
+	Position: 13
+	Position: 24
+	The character |t| occured - 5 times 
+
 */
