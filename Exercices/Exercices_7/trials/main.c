@@ -3,10 +3,6 @@
 
 
 
-
-void second (void); 
-
-
 int main ()
 {
 	printf("This is printed from main\n");
@@ -21,7 +17,7 @@ int main ()
 
 /* RUN:
 
-	gcc combine.c externFunc.c -o ce
+	gcc main.c tools.c -o main
 
 
 */
