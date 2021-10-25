@@ -8,6 +8,5 @@ main: main.o lib.a
 main.o: main.c
 	gcc -c main.c
 
-
 clean:
 	rm -f main
