@@ -4,7 +4,7 @@ STATIC LIBRARY
 
 2. Compile it -> tools.c to tools.o (gcc -c) 
 
-3. Create a header file (see header)
+3. Create a header file (see header in 'test')
 
 4. Create archive:
     ar rs <Library Name> <Object file/s>
