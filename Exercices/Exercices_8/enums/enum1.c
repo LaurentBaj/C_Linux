@@ -5,7 +5,6 @@ typedef enum Color {
     RED, BLUE, YELLOW
 } Color; 
 
-
 int main ()
 {
     Color c1 = RED, c2 = BLUE, c3 = YELLOW; 
