@@ -108,8 +108,45 @@ void insert_sorted(Node** root, int value)
 }
 
 
+remove_element(Node **root, int value){
+    if (*root == NULL) return;
 
+    Node* to_remove; 
 
+    if ((*root)->x == value)
+    {
+        to_remove = *root;
+        *root = (*root)->next;
+        free(to_remove); 
+        return;
+    }
+
+    for (Node* curr = *root; curr->next != NULL; curr = curr->next)
+    {
+        if (curr->next->x == value)
+        {
+            to_remove = curr->next; 
+            curr->next = curr->next->next; 
+            free(to_remove); 
+            return; 
+        }
+    } 
+}
+
+void count_nodes(Node **root)
+{
+    if (root == NULL) return; 
+    int counter = 0; 
+
+    Node* curr = *root; 
+    while (curr != NULL) 
+    {
+        counter++; 
+        curr = curr->next; 
+    }
+
+    printf("\nSize of linked list: %d\n", counter);
+}
 
 int main()
 {
@@ -123,11 +160,11 @@ int main()
     insert_after(root->next->next, 4);
     insert_sorted(&root, 2); 
 
-
+    remove_element(&root, 1);
     print_list(&root); 
+
+    count_nodes(&root); 
 
     deallocate(&root); 
     return 0; 
 }
-
-// 1 2 4 3
