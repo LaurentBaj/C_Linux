@@ -85,6 +85,31 @@ void print_list(Node** root)
     }
 }
 
+void insert_sorted(Node** root, int value)
+{
+    if (*root == NULL || (**root).x >= value)
+    {
+        insert_beginning(root, value); 
+        return; 
+    }
+
+    // Traverse to where we want to insert after
+    Node* curr = *root; 
+    while (curr->next != NULL)
+    {
+        if (curr->next->x >= value)
+        {
+            break; // jump before next line
+        }
+        curr = curr->next; 
+    }
+
+    insert_after(curr, value); 
+}
+
+
+
+
 
 int main()
 {
@@ -96,6 +121,8 @@ int main()
 
     append(&root, 5);  
     insert_after(root->next->next, 4);
+    insert_sorted(&root, 2); 
+
 
     print_list(&root); 
 
