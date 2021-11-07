@@ -2,14 +2,11 @@
 #include <stdlib.h>
 
 
-
-
 typedef struct Node
 {
     int x; 
     struct Node* next; 
 } Node; 
-
 
 void append(Node** root, int value)
 {
@@ -38,23 +35,72 @@ void append(Node** root, int value)
     curr->next = new_node; 
 }
 
+void insert_beginning(Node** root, int value)
+{
+    Node* new_node = malloc(sizeof(Node)); 
+    if (new_node == NULL)
+    {
+        return 3; 
+    }
+
+    new_node->x = value; 
+
+     // Switch places with root
+    new_node->next = *root; 
+    *root = new_node; 
+}
+
+// Free dynamic memory (Linked list contents)
+void deallocate(Node** root)
+{
+    Node* curr = *root; 
+    while(curr != NULL)
+    {
+        Node* aux = curr; 
+        curr = curr->next; 
+        free(aux); 
+    }
+    *root = NULL;  
+}
+
+// Add node to a specific index in list
+// param1: index in list, param2: value
+void insert_after(Node* node, int value)
+{
+    Node* new_node = malloc(sizeof(Node));
+    if (new_node == NULL) return 4; 
+    new_node->x = value; 
+
+    new_node->next = node->next; 
+    node->next = new_node;  
+}
+
+void print_list(Node** root)
+{
+    Node* curr = *root;
+    while (curr != NULL)
+    {
+        printf("%d\n", curr->x); 
+        curr = curr->next; 
+    }
+}
+
 
 int main()
 {
     Node* root = NULL; 
 
-    /*if (root == NULL) exit(2);  
-    root->x = 15; 
-    root->next = NULL;*/
+    insert_beginning(&root, 3);
+    insert_beginning(&root, 2);
+    insert_beginning(&root, 1);
 
-    append(&root, -2);
-    append(&root, 3);
-    append(&root, 19);
+    append(&root, 5);  
+    insert_after(root->next->next, 4);
 
-    for (Node* curr = root; curr != NULL; curr = curr->next)
-    {
-        printf("%d\n", curr->x);
-    }
+    print_list(&root); 
 
+    deallocate(&root); 
     return 0; 
 }
+
+// 1 2 4 3
