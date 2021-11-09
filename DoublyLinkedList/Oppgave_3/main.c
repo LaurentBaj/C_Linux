@@ -4,37 +4,51 @@
 
 typedef struct Node
 {
-    int x;
+    int count;
+    float price;
     struct Node *next;
     struct Node *prev;
 } Node;
 
-Node *find_node(Node *tail, int value);
+Node *find_node(Node *tail, float value);
 void remove_node(Node *node);
-void insert_after(Node *node, int value);
-void append(Node **head, int value);
-void init(Node **tail, Node **head, int value);
+void insert_after(Node *node, float value);
+void append(Node **head, float value);
+void init(Node **tail, Node **head, float value);
 void deallocate(Node **tail, Node **head);
 
 int main()
 {
-    char key1[] = "Quit", key2[] = "Purchase";
-    char key3[] = "Add", key4[] = "Delete";
-    char buffer[30];
+    char a = 'a', p = 'p', q = 'q';
+    char buffer;
 
-    do
+    /*do
     {
         printf("Do you want to quit?\n");
-        scanf("%4s", buffer);
+        scanf("%4s", &buffer);
 
-        if (strcmp(key2, buffer) == 0)
+        if (buffer == 'a')
         {
-            printf("LOL!\n");
+            printf("Triggered a\n");
+        }
+        else if (buffer == 'p')
+        {
+            printf("Triggered p\n");
         }
 
-    } while (strcmp(key1, buffer) != 0);
+    } while (buffer != 'q');*/
+    Node *tail = NULL;
+    Node *head = NULL;
 
-    printf("Correct answer!\n");
+    init(&tail, &head, 7.2);
+    append(&head, 3.14);
+
+    for (Node *curr = tail; curr != NULL; curr = curr->next)
+    {
+        printf("%f\n", curr->price);
+    }
+
+    printf("Program finsihed executing\n");
     return 0;
 }
 
@@ -54,10 +68,8 @@ void deallocate(Node **tail, Node **head)
     *tail = NULL;
     *head = NULL;
 }
-int count;
-float price;
 
-void insert_beginning(Node **tail, int value)
+void insert_beginning(Node **tail, float value)
 {
     Node *new_node = malloc(sizeof(Node));
     if (new_node == NULL)
@@ -66,7 +78,7 @@ void insert_beginning(Node **tail, int value)
         return;
     }
 
-    new_node->x = value;
+    new_node->price = value;
     new_node->prev = NULL;
     new_node->next = *tail;
 
@@ -74,7 +86,7 @@ void insert_beginning(Node **tail, int value)
     *tail = new_node;
 }
 
-void init(Node **tail, Node **head, int value)
+void init(Node **tail, Node **head, float value)
 {
     Node *new_node = malloc(sizeof(Node));
     if (new_node == NULL)
@@ -83,7 +95,7 @@ void init(Node **tail, Node **head, int value)
         return;
     }
 
-    new_node->x = value;
+    new_node->price = value;
     new_node->prev = NULL;
     new_node->next = NULL;
 
@@ -91,7 +103,7 @@ void init(Node **tail, Node **head, int value)
     *head = new_node;
 }
 
-void append(Node **head, int value)
+void append(Node **head, float value)
 {
     Node *new_node = malloc(sizeof(Node));
 
@@ -101,7 +113,7 @@ void append(Node **head, int value)
         return;
     }
 
-    new_node->x = value;
+    new_node->price = value;
     new_node->next = NULL;
 
     new_node->prev = *head;
@@ -109,7 +121,7 @@ void append(Node **head, int value)
     (*head) = new_node;
 }
 
-void insert_after(Node *node, int value)
+void insert_after(Node *node, float value)
 {
     Node *new_node = malloc(sizeof(Node));
     if (new_node == NULL)
@@ -118,7 +130,7 @@ void insert_after(Node *node, int value)
         return;
     }
 
-    new_node->x = value;
+    new_node->price = value;
     new_node->prev = node;
     new_node->next = node->next;
 
@@ -143,11 +155,11 @@ void remove_node(Node *node)
     free(node);
 }
 
-Node *find_node(Node *tail, int value)
+Node *find_node(Node *tail, float value)
 {
     for (Node *curr = tail; curr != NULL; curr = curr->next)
     {
-        if (curr->x == value)
+        if (curr->price == value)
             return curr;
     }
     return NULL;
