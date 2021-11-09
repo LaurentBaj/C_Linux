@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct Node
 {
@@ -7,6 +8,35 @@ typedef struct Node
     struct Node *next;
     struct Node *prev;
 } Node;
+
+Node *find_node(Node *tail, int value);
+void remove_node(Node *node);
+void insert_after(Node *node, int value);
+void append(Node **head, int value);
+void init(Node **tail, Node **head, int value);
+void deallocate(Node **tail, Node **head);
+
+int main()
+{
+    char key1[] = "Quit", key2[] = "Purchase";
+    char key3[] = "Add", key4[] = "Delete";
+    char buffer[30];
+
+    do
+    {
+        printf("Do you want to quit?\n");
+        scanf("%4s", buffer);
+
+        if (strcmp(key2, buffer) == 0)
+        {
+            printf("LOL!\n");
+        }
+
+    } while (strcmp(key1, buffer) != 0);
+
+    printf("Correct answer!\n");
+    return 0;
+}
 
 void deallocate(Node **tail, Node **head)
 {
@@ -24,6 +54,8 @@ void deallocate(Node **tail, Node **head)
     *tail = NULL;
     *head = NULL;
 }
+int count;
+float price;
 
 void insert_beginning(Node **tail, int value)
 {
@@ -119,38 +151,4 @@ Node *find_node(Node *tail, int value)
             return curr;
     }
     return NULL;
-}
-
-int main()
-{
-    Node *tail = NULL;
-    Node *head = NULL;
-
-    init(&tail, &head, 7);
-    insert_beginning(&tail, 3);
-    insert_beginning(&tail, 1);
-    insert_after(tail->next, 5);
-    remove_node(tail->next);
-
-    Node *aux = tail->next;
-    remove_node(tail);
-    tail = aux;
-
-    Node *found = find_node(tail, 4);
-    if (found == NULL)
-    {
-        printf("Node was not found\n");
-    }
-    else
-    {
-        printf("\nValue: %d; Next: %p\n", found->x, found->next);
-    }
-
-    for (Node *curr = tail; curr != NULL; curr = curr->next)
-    {
-        printf("%d\n", curr->x);
-    }
-
-    deallocate(&tail, &head);
-    return 0;
 }
