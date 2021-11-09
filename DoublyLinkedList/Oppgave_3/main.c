@@ -25,8 +25,7 @@ int main()
     Node *head = NULL;
     init(&tail, &head, 7.2);
 
-    // User options and buffers
-    char a = 'a', p = 'p', q = 'q';
+    // Buffers
     char buffer;
     float b_price;
     int b_count;
@@ -34,7 +33,7 @@ int main()
 
     do
     {
-        printf("Do you want to quit?\n");
+        printf("\nEnter action: \n");
         scanf("%4s", &buffer);
 
         if (buffer == 'a')
@@ -47,7 +46,7 @@ int main()
             scanf("%d", &b_count);
 
             append(&head, b_price, b_name, b_count);
-            printf("\n %dx %s has been added to list\n", b_count, b_name);
+            printf("%dx - %s has been added to list\n", b_count, b_name);
         }
         else if (buffer == 'p')
         {
@@ -58,10 +57,12 @@ int main()
 
     for (Node *curr = tail; curr != NULL; curr = curr->next)
     {
-        printf("%f\n", curr->price);
+        printf("Product: %s - Price: %f - Amount: %d\n",
+               curr->name, curr->price, curr->count);
     }
 
-    printf("Program finsihed executing\n");
+    deallocate(&tail, &head);
+    printf("\nProgram finsihed executing\n");
     return 0;
 }
 
@@ -74,9 +75,10 @@ void deallocate(Node **tail, Node **head)
     while (curr->next != NULL)
     { // Jump to next and free previous node
         curr = curr->next;
-        free(curr->prev);
+        free(curr->name); // Free allocated name from n
+        free(curr->prev); // Free allocated N's
     }
-    free(curr);
+    free(curr); // Free last node
 
     *tail = NULL;
     *head = NULL;
@@ -119,6 +121,8 @@ void init(Node **tail, Node **head, float value)
 void append(Node **head, float price, char *p_name, int iCount)
 {
     Node *new_node = malloc(sizeof(Node));
+    char *n_name = malloc(sizeof(p_name));
+    memcpy(n_name, p_name, sizeof(p_name));
 
     if (new_node == NULL)
     {
@@ -127,7 +131,7 @@ void append(Node **head, float price, char *p_name, int iCount)
     }
 
     new_node->count = iCount;
-    new_node->name = p_name;
+    new_node->name = n_name;
     new_node->price = price;
     new_node->next = NULL;
 
