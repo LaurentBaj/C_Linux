@@ -4,6 +4,7 @@
 
 typedef struct Node
 {
+    char *name;
     int count;
     float price;
     struct Node *next;
@@ -13,35 +14,47 @@ typedef struct Node
 Node *find_node(Node *tail, float value);
 void remove_node(Node *node);
 void insert_after(Node *node, float value);
-void append(Node **head, float value);
+void append(Node **head, float price, char *p_name, int iCount);
 void init(Node **tail, Node **head, float value);
 void deallocate(Node **tail, Node **head);
 
 int main()
 {
+    // Initialize shopping cart (dll)
+    Node *tail = NULL;
+    Node *head = NULL;
+    init(&tail, &head, 7.2);
+
+    // User options and buffers
     char a = 'a', p = 'p', q = 'q';
     char buffer;
+    float b_price;
+    int b_count;
+    char *b_name;
 
-    /*do
+    do
     {
         printf("Do you want to quit?\n");
         scanf("%4s", &buffer);
 
         if (buffer == 'a')
         {
-            printf("Triggered a\n");
+            printf("Enter product name: ");
+            scanf("%s", b_name);
+            printf("Enter price: ");
+            scanf("%f", &b_price);
+            printf("Enter amount: ");
+            scanf("%d", &b_count);
+
+            append(&head, b_price, b_name, b_count);
+            printf("\n %dx %s has been added to list\n", b_count, b_name);
         }
         else if (buffer == 'p')
         {
             printf("Triggered p\n");
         }
 
-    } while (buffer != 'q');*/
-    Node *tail = NULL;
-    Node *head = NULL;
-
-    init(&tail, &head, 7.2);
-    append(&head, 3.14);
+    } while (buffer != 'q');
 
     for (Node *curr = tail; curr != NULL; curr = curr->next)
     {
@@ -103,7 +116,7 @@ void init(Node **tail, Node **head, float value)
     *head = new_node;
 }
 
-void append(Node **head, float value)
+void append(Node **head, float price, char *p_name, int iCount)
 {
     Node *new_node = malloc(sizeof(Node));
 
@@ -113,7 +126,9 @@ void append(Node **head, float value)
         return;
     }
 
-    new_node->price = value;
+    new_node->count = iCount;
+    new_node->name = p_name;
+    new_node->price = price;
     new_node->next = NULL;
 
     new_node->prev = *head;
