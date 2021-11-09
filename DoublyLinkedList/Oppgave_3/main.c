@@ -25,11 +25,11 @@ int main()
     // Initialize shopping cart (dll)
     Node *tail = NULL;
     Node *head = NULL;
-    init(&tail, &head, 7.2);
+    init(&tail, &head, 0);
 
     // Buffers
     char buffer, *b_name;
-    float b_price;
+    float b_price, sum;
     int b_count;
 
     do
@@ -49,17 +49,9 @@ int main()
             append(&head, b_price, b_name, b_count);
             printf("%dx - %s has been added to list\n", b_count, b_name);
         }
-        else if (buffer == 'p')
-        {
-            printf("Triggered p\n");
-        }
-        else if (buffer == 'r')
+        if (buffer == 'r')
         {
             remove_last(&head);
-        }
-        else if (buffer == 'q')
-        {
-            break;
         }
     } while (buffer != 'q');
 
@@ -193,11 +185,22 @@ Node *find_node(Node *tail, float value)
 
 void print_dll(Node *node)
 {
-    for (Node *curr = node; curr != NULL; curr = curr->next)
+    float sum = 0;
+    char receipt[100];
+    memset(receipt, '=', 50);
+    puts(receipt);
+    puts("\n -- RECEIPT --");
+
+    for (Node *curr = node->next; curr != NULL; curr = curr->next)
     {
-        printf("Product: %s - Price: %f - Amount: %d\n",
+        sum += (*curr).price * (*curr).count;
+        printf("\nProduct: %s - Price: %f - Amount: %d\n",
                curr->name, curr->price, curr->count);
     }
+
+    puts(receipt);
+    printf("\nSum: %f$\n", sum);
+    puts(receipt);
 }
 
 void remove_last(Node **head)
@@ -211,6 +214,8 @@ void remove_last(Node **head)
     Node *temp = *head;
     (*head)->prev->next = NULL;
     (*head) = temp;
+
+    printf("\n%s has been removed from Cart\n", temp->name);
     free(temp->name);
     free(temp);
 }
