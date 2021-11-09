@@ -18,7 +18,7 @@ void append(Node **head, float price, char *p_name, int iCount);
 void init(Node **tail, Node **head, float value);
 void deallocate(Node **tail, Node **head);
 void print_dll(Node *node);
-void remove_last(Node *node);
+void remove_last(Node **head);
 
 int main()
 {
@@ -55,17 +55,12 @@ int main()
         }
         else if (buffer == 'r')
         {
-            remove_last(head);
+            remove_last(&head);
         }
         else if (buffer == 'q')
         {
             break;
         }
-        else
-        {
-            printf("\nCommand was not recognized\n");
-        }
-
     } while (buffer != 'q');
 
     print_dll(tail);
@@ -205,14 +200,17 @@ void print_dll(Node *node)
     }
 }
 
-void remove_last(Node *head)
+void remove_last(Node **head)
 {
     if (head == NULL)
     {
         exit(5);
         return;
     }
-    Node *curr = head;
-    printf("Product: %s has been removed: \n", curr->name);
-    remove_node(curr);
+
+    Node *temp = *head;
+    (*head)->prev->next = NULL;
+    (*head) = temp;
+    free(temp->name);
+    free(temp);
 }
