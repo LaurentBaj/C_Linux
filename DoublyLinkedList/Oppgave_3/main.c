@@ -17,6 +17,8 @@ void insert_after(Node *node, float value);
 void append(Node **head, float price, char *p_name, int iCount);
 void init(Node **tail, Node **head, float value);
 void deallocate(Node **tail, Node **head);
+void print_dll(Node *node);
+void remove_last(Node *node);
 
 int main()
 {
@@ -26,15 +28,14 @@ int main()
     init(&tail, &head, 7.2);
 
     // Buffers
-    char buffer;
+    char buffer, *b_name;
     float b_price;
     int b_count;
-    char *b_name;
 
     do
     {
         printf("\nEnter action: \n");
-        scanf("%4s", &buffer);
+        scanf("%c", &buffer);
 
         if (buffer == 'a')
         {
@@ -52,14 +53,22 @@ int main()
         {
             printf("Triggered p\n");
         }
+        else if (buffer == 'r')
+        {
+            remove_last(head);
+        }
+        else if (buffer == 'q')
+        {
+            break;
+        }
+        else
+        {
+            printf("\nCommand was not recognized\n");
+        }
 
     } while (buffer != 'q');
 
-    for (Node *curr = tail; curr != NULL; curr = curr->next)
-    {
-        printf("Product: %s - Price: %f - Amount: %d\n",
-               curr->name, curr->price, curr->count);
-    }
+    print_dll(tail);
 
     deallocate(&tail, &head);
     printf("\nProgram finsihed executing\n");
@@ -121,8 +130,6 @@ void init(Node **tail, Node **head, float value)
 void append(Node **head, float price, char *p_name, int iCount)
 {
     Node *new_node = malloc(sizeof(Node));
-    char *n_name = malloc(sizeof(p_name));
-    memcpy(n_name, p_name, sizeof(p_name));
 
     if (new_node == NULL)
     {
@@ -130,11 +137,15 @@ void append(Node **head, float price, char *p_name, int iCount)
         return;
     }
 
+    // Provide unique product name
+    char *n_name = malloc(sizeof(p_name));
+    memcpy(n_name, p_name, sizeof(p_name));
+
     new_node->count = iCount;
     new_node->name = n_name;
     new_node->price = price;
-    new_node->next = NULL;
 
+    new_node->next = NULL;
     new_node->prev = *head;
     (*head)->next = new_node;
     (*head) = new_node;
@@ -171,6 +182,7 @@ void remove_node(Node *node)
         node->next->prev = node->prev;
     }
 
+    free(node->name);
     free(node);
 }
 
@@ -182,4 +194,25 @@ Node *find_node(Node *tail, float value)
             return curr;
     }
     return NULL;
+}
+
+void print_dll(Node *node)
+{
+    for (Node *curr = node; curr != NULL; curr = curr->next)
+    {
+        printf("Product: %s - Price: %f - Amount: %d\n",
+               curr->name, curr->price, curr->count);
+    }
+}
+
+void remove_last(Node *head)
+{
+    if (head == NULL)
+    {
+        exit(5);
+        return;
+    }
+    Node *curr = head;
+    printf("Product: %s has been removed: \n", curr->name);
+    remove_node(curr);
 }
