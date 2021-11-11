@@ -4,17 +4,27 @@
 #include <unistd.h>
 #include <string.h>
 
+void *program();
+void *write_to_file(void *arg);
+pthread_t main_thread, working_thread;
 char str[2], buffer, quit[] = "Quit";
 FILE *file;
-pthread_t main_thread, working_thread;
+
+int main()
+{
+    pthread_create(&main_thread, NULL, &program, NULL);
+    pthread_join(main_thread, NULL);
+
+    return 0;
+}
 
 void *write_to_file(void *arg)
 {
-    FILE *temp = (FILE *)arg;
-    temp = fopen("text.txt", "a");
-    fprintf(temp, "%s", "\n");
-    fprintf(temp, "%s", str);
-    fclose(temp);
+    char *input = arg;
+    file = fopen("text.txt", "a");
+    fprintf(file, "%s", "\n");
+    fprintf(file, "%s", input);
+    fclose(file);
 }
 
 void *program()
@@ -34,7 +44,8 @@ void *program()
             scanf("%s", str);
             if (strlen(str) < 10)
             {
-                pthread_create(&working_thread, NULL, &write_to_file, file);
+                pthread_create(&working_thread, NULL, &write_to_file, str);
+                pthread_join(working_thread, NULL);
             }
             else
             {
@@ -45,12 +56,4 @@ void *program()
     } while (1);
 
     pthread_join(working_thread, NULL);
-}
-
-int main()
-{
-    pthread_create(&main_thread, NULL, &program, NULL);
-    pthread_join(main_thread, NULL);
-
-    return 0;
 }
