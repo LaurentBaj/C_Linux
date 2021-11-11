@@ -6,13 +6,20 @@
 
 void *program();
 void *write_to_file(void *arg);
+
 pthread_t main_thread, working_thread;
-char str[2], buffer, quit[] = "Quit";
-FILE *file;
+typedef struct file_handler
+{
+    FILE *file;
+    char str[10];
+    char buffer;
+} file_handler;
 
 int main()
 {
-    pthread_create(&main_thread, NULL, &program, NULL);
+    file_handler *fh = malloc(sizeof(file_handler));
+
+    pthread_create(&main_thread, NULL, &program, fh);
     pthread_join(main_thread, NULL);
 
     return 0;
@@ -20,31 +27,34 @@ int main()
 
 void *write_to_file(void *arg)
 {
-    char *input = arg;
-    file = fopen("text.txt", "a");
-    fprintf(file, "%s", "\n");
-    fprintf(file, "%s", input);
-    fclose(file);
+    file_handler *fh = (file_handler *)arg;
+    fh->file = fopen("text.txt", "a");
+
+    fprintf(fh->file, "%s", "\n");
+    fprintf(fh->file, "%s", fh->str);
+    fclose(fh->file);
 }
 
-void *program()
+void *program(void *arg)
 {
+    file_handler *fh = (file_handler *)arg;
+
     do
     {
         printf("Add new line to file (a) or quit (q)\n");
-        scanf("%c", &buffer);
+        scanf("%c", &fh->buffer);
 
-        if (buffer == 'q')
+        if (fh->buffer == 'q')
         {
             break;
         }
-        else if (buffer == 'a')
+        else if (fh->buffer == 'a')
         {
             printf("Enter text: ");
-            scanf("%s", str);
-            if (strlen(str) < 10)
+            scanf("%s", fh->str);
+            if (strlen(fh->str) < 10)
             {
-                pthread_create(&working_thread, NULL, &write_to_file, str);
+                pthread_create(&working_thread, NULL, &write_to_file, fh);
                 pthread_join(working_thread, NULL);
             }
             else
