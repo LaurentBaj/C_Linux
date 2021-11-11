@@ -17,27 +17,16 @@ typedef struct file_handler
 
 int main()
 {
-    file_handler *fh = malloc(sizeof(file_handler));
-
-    pthread_create(&main_thread, NULL, &program, fh);
+    pthread_create(&main_thread, NULL, &program, NULL);
     pthread_join(main_thread, NULL);
 
+    printf("\nText writer closed\n");
     return 0;
 }
 
-void *write_to_file(void *arg)
+void *program()
 {
-    file_handler *fh = (file_handler *)arg;
-    fh->file = fopen("text.txt", "a");
-
-    fprintf(fh->file, "%s", "\n");
-    fprintf(fh->file, "%s", fh->str);
-    fclose(fh->file);
-}
-
-void *program(void *arg)
-{
-    file_handler *fh = (file_handler *)arg;
+    file_handler *fh = malloc(sizeof(file_handler));
 
     do
     {
@@ -59,11 +48,23 @@ void *program(void *arg)
             }
             else
             {
-                printf("Text can't contain more than 10 letters\n");
+                printf("\n(Text can't contain more than 10 letters)\n\n");
             }
         }
 
     } while (1);
 
+    free(fh);
     pthread_join(working_thread, NULL);
+}
+
+void *write_to_file(void *arg)
+{
+    file_handler *fh = (file_handler *)arg;
+    fh->file = fopen("text.txt", "a");
+
+    fprintf(fh->file, "%s", "\n");
+    fprintf(fh->file, "%s", fh->str);
+
+    fclose(fh->file);
 }
