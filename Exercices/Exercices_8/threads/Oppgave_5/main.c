@@ -1,22 +1,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
+#include <unistd.h>
 
-void *player1(void *arg)
+void *routine(void *arg)
 {
-    int *iptr = (int *)malloc(sizeof(int));
-    *iptr = 3;
-    return iptr;
+    int *p = (int *)arg;
+    *p = 2;
+    return (void *)p;
 }
 
 int main()
 {
-    pthread_t t1;
-    int *res = malloc(sizeof(int));
+    FILE *f1, *f2;
+    pthread_t t1, t2;
+    int *i = malloc(sizeof(int));
 
-    pthread_create(&t1, NULL, &player1, NULL);
-    pthread_join(t1, (void *)&res);
+    if (pthread_create(&t1, NULL, &routine, i) != 0)
+    {
+        return 1;
+    }
 
-    printf("%d\n", *res);
+    if (pthread_join(t1, (void *)&i) != 0)
+    {
+        return 2;
+    }
+
+    printf("%d\n", *i);
     return 0;
 }
