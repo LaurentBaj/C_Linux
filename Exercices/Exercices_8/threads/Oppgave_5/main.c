@@ -5,27 +5,26 @@
 
 void *routine(void *arg)
 {
-    int *p = (int *)arg;
-    *p = 2;
-    return (void *)p;
+    FILE *temp = (FILE *)arg;
+    temp = fopen("text.txt", "w");
+    fprintf(temp, "%s", "Hva faen?");
+    fclose(temp);
 }
 
 int main()
 {
-    FILE *f1, *f2;
+    FILE *f1;
     pthread_t t1, t2;
-    int *i = malloc(sizeof(int));
 
-    if (pthread_create(&t1, NULL, &routine, i) != 0)
+    if (pthread_create(&t1, NULL, &routine, f1) != 0)
     {
         return 1;
     }
 
-    if (pthread_join(t1, (void *)&i) != 0)
+    if (pthread_join(t1, NULL) != 0)
     {
         return 2;
     }
 
-    printf("%d\n", *i);
     return 0;
 }
