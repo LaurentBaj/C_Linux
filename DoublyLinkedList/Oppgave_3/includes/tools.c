@@ -11,6 +11,7 @@ typedef struct Node
     struct Node *prev;
 } Node;
 
+// Free heap
 void deallocate(Node **tail, Node **head)
 {
     if (tail == NULL)
@@ -29,23 +30,7 @@ void deallocate(Node **tail, Node **head)
     *head = NULL;
 }
 
-void insert_beginning(Node **tail, float value)
-{
-    Node *new_node = malloc(sizeof(Node));
-    if (new_node == NULL)
-    {
-        exit(1);
-        return;
-    }
-
-    new_node->price = value;
-    new_node->prev = NULL;
-    new_node->next = *tail;
-
-    (*tail)->prev = new_node;
-    *tail = new_node;
-}
-
+// Initialize cart (dll)
 void init(Node **tail, Node **head, float value)
 {
     Node *new_node = malloc(sizeof(Node));
@@ -63,6 +48,7 @@ void init(Node **tail, Node **head, float value)
     *head = new_node;
 }
 
+// Add product to head
 void append(Node **head, float price, char *p_name, int iCount)
 {
     Node *new_node = malloc(sizeof(Node));
@@ -87,26 +73,7 @@ void append(Node **head, float price, char *p_name, int iCount)
     (*head) = new_node;
 }
 
-void insert_after(Node *node, float value)
-{
-    Node *new_node = malloc(sizeof(Node));
-    if (new_node == NULL)
-    {
-        exit(4);
-        return;
-    }
-
-    new_node->price = value;
-    new_node->prev = node;
-    new_node->next = node->next;
-
-    if (node->next != NULL)
-    {
-        node->next->prev = new_node;
-    }
-    node->next = new_node;
-}
-
+// Remove single product
 void remove_node(Node *node)
 {
     if (node->prev != NULL)
@@ -122,16 +89,7 @@ void remove_node(Node *node)
     free(node);
 }
 
-Node *find_node(Node *tail, float value)
-{
-    for (Node *curr = tail; curr != NULL; curr = curr->next)
-    {
-        if (curr->price == value)
-            return curr;
-    }
-    return NULL;
-}
-
+// Provide receipt
 void print_dll(Node *node)
 {
     float sum = 0;
@@ -152,6 +110,7 @@ void print_dll(Node *node)
     puts(receipt);
 }
 
+// Regret newly added product
 void remove_last(Node **head)
 {
     if (head == NULL)
@@ -169,6 +128,7 @@ void remove_last(Node **head)
     free(temp);
 }
 
+// FUNC DOES NOT WORK:
 // This was supposed to delete all products with the same name
 void remove_all_instances_of(Node *tail, char *value)
 {
@@ -178,6 +138,7 @@ void remove_all_instances_of(Node *tail, char *value)
         return;
     }
 
+    // I can's seem to perform comparing ^value with (curr->name)
     Node *curr = tail;
     while (curr != NULL)
     {
