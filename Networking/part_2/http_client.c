@@ -4,13 +4,14 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <netinet/in.h>
-#include <arpa/inet.h>>
+#include <arpa/inet.h>
 
 #include <unistd.h>
 #include <string.h>
 
 int main(int argc, char *argv[])
 {
+    FILE *file_response = fopen("index.html", "w");
     char *address;
     address = argv[1];
 
@@ -31,7 +32,10 @@ int main(int argc, char *argv[])
     recv(client_socket, &response, sizeof(response), 0);
 
     printf("response from the server: %s\n", response);
+    fputs("%s", file_response);
+
     close(client_socket);
+    fclose(file_response);
 
     return 0;
 }
